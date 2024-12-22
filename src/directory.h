@@ -1,6 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <string>
+#include <vector>
 
 class Directory {
  public:
@@ -9,7 +11,7 @@ class Directory {
   static const std::string& GetCurrent();
 
  private:
-  static std::string current_wd_;
+  static std::string m_current_wd;
 
-  std::string name_;
+  std::string m_name;
 };
