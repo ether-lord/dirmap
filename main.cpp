@@ -1,9 +1,12 @@
 #include <iostream>
-
-#include "directory.h"
+#include <filesystem>
 
 using namespace std;
+using namespace std::filesystem;
 
 int main(int argc, char** argv) {
-  cout << Directory::GetCurrent() << endl;
+  auto directory_it = recursive_directory_iterator(current_path());
+
+  for (const auto& file : directory_it)
+    cout << file.path().filename() << endl;
 }

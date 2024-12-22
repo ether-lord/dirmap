@@ -4,9 +4,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 project(DirMap)
 
-include_directories(src)
-add_subdirectory(src)
-
 add_compile_options(
   -fsanitize=address
   -fsanitize=undefined
@@ -20,4 +17,3 @@ add_link_options(-fsanitize=address, -fsanitize=undefined)
 
 
 add_executable(main main.cpp)
-target_link_libraries(main PRIVATE dirmap)
