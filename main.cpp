@@ -47,7 +47,10 @@ int main(int argc, char** argv) {
   for (const auto& entry : directory_it) {
     if (print_filename) {
       auto entry_str = entry.path().filename().string();
-      cout << entry_str << endl;
+      cout << entry_str;
+      if (print_filesize && entry.is_regular_file())
+        cout << ' ' << HumanReadable{entry.file_size()};
+      cout << endl;
     }
 
     if (print_total_size && entry.is_regular_file())
@@ -55,5 +58,5 @@ int main(int argc, char** argv) {
   }
 
   if (print_total_size)
-    cout << "Total size: " <<  HumanReadable{total_files_size} << endl;
+    cout << "Total size: " << HumanReadable{total_files_size} << endl;
 }
