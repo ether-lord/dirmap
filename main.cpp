@@ -23,7 +23,7 @@ struct HumanReadable {
 int main(int argc, char** argv) {
   bool print_filesize = false;
   bool print_total_size = false;
-  bool print_filename = false;
+  bool print_full_path = false;
 
   int rez = 0;
   while ((rez = getopt(argc, argv, "sSf")) != -1) {
@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
         print_total_size = true;
         break;
       case 'f':
-        print_filename = true;
+      print_full_path = true;
         break;
       default:
         break;
@@ -45,16 +45,21 @@ int main(int argc, char** argv) {
   size_t total_files_size = 0;
   auto directory_it = recursive_directory_iterator(current_path());
   for (const auto& entry : directory_it) {
-    if (print_filename) {
-      auto entry_str = entry.path().filename().string();
+    auto entry_str = entry.path().filename().string();
+
+    if (print_full_path)
+      cout << entry.path().string();
+    else
       cout << entry_str;
-      if (print_filesize && entry.is_regular_file())
-        cout << ' ' << HumanReadable{entry.file_size()};
-      cout << endl;
-    }
+
+    if (print_filesize && entry.is_regular_file())
+      cout << ' ' << HumanReadable{entry.file_size()};
+    wcout << endl;
 
     if (print_total_size && entry.is_regular_file())
       total_files_size += entry.file_size();
+    
+
   }
 
   if (print_total_size)
